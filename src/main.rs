@@ -25,11 +25,13 @@ fn main() {
         .parse::<u32>()
         .unwrap();
 
-    work_website(url, depth);
+    work_website(url, 0, depth);
 }
 
-fn work_website(url: &String, depth: u32) {
-    dbg!(url);
+fn work_website(url: &String, depth: u32, depth_remaining: u32) {
+    for i in 0..depth {
+        println!("{}{}", " ".repeat(i as usize), url);
+    }
     let info = Webpage::from_url(url, WebpageOptions::default());
     let mut path = std::env::current_dir().unwrap();
     path.push("output");
@@ -49,11 +51,11 @@ fn work_website(url: &String, depth: u32) {
             let mut file = std::fs::File::create(path).unwrap();
             file.write_all(info.html.text_content.as_bytes()).unwrap();
             //recurse through the links
-            if depth > 0 {
+            if depth_remaining > 0 {
                 for link in info.html.links {
                     //check if the link is an url
                     if link.url.starts_with("http") {
-                        work_website(&link.url, depth - 1);
+                        work_website(&link.url, depth + 1, depth_remaining - 1);
                     }
                 }
             }
