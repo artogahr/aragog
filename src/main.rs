@@ -25,10 +25,13 @@ fn main() {
         .parse::<u32>()
         .unwrap();
 
-    work_website(url, 0, depth);
+    let mut all_links: Vec<String> = Vec::new();
+
+    work_website(url, 0, depth, &mut all_links);
 }
 
-fn work_website(url: &String, depth: u32, depth_remaining: u32) {
+fn work_website(url: &String, depth: u32, depth_remaining: u32, all_links: &mut Vec<String>) {
+    all_links.push(url.to_string());
     for i in 0..depth {
         println!("{}{}", " ".repeat(i as usize), url);
     }
@@ -54,8 +57,8 @@ fn work_website(url: &String, depth: u32, depth_remaining: u32) {
             if depth_remaining > 0 {
                 for link in info.html.links {
                     //check if the link is an url
-                    if link.url.starts_with("http") {
-                        work_website(&link.url, depth + 1, depth_remaining - 1);
+                    if link.url.starts_with("http") && !all_links.contains(&link.url) {
+                        work_website(&link.url, depth + 1, depth_remaining - 1, all_links);
                     }
                 }
             }
