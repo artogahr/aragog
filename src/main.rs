@@ -35,11 +35,20 @@ fn work_website(url: &String, depth: u32) {
     path.push("output");
     match Result::from(info) {
         Ok(info) => {
-            path.push(info.html.title.unwrap());
+            //create a directory for the page
+            match info.html.title {
+                Some(title) => {
+                    path.push(title);
+                }
+                None => {
+                    path.push(info.html.url.unwrap());
+                }
+            }
             std::fs::create_dir_all(&path).unwrap();
             path.push("index.html");
             let mut file = std::fs::File::create(path).unwrap();
             file.write_all(info.html.text_content.as_bytes()).unwrap();
+            //recurse through the links
             if depth > 0 {
                 for link in info.html.links {
                     //check if the link is an url
