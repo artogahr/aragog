@@ -33,7 +33,7 @@ fn main() {
 
 fn work_website(url: &String, depth: u32, depth_remaining: u32, all_links: &mut Vec<String>) {
     all_links.push(url.to_string());
-    println!("{}  {}", " ".repeat(depth as usize), url);
+    println!("▕{}➡  {}", "▕".repeat(depth as usize), url);
     let info = Webpage::from_url(url, WebpageOptions::default());
     let mut path = std::env::current_dir().unwrap();
     path.push("output");
