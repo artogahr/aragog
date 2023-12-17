@@ -10,4 +10,5 @@ clap = { version = "4.4.11", features = ["derive"] }
 env_logger = "0.10.1"
 indicatif = "0.17.7"
 log = "0.4.20"
+url = "2.5.0"
 webpage = "2.0.0"
