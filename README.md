@@ -16,7 +16,7 @@ cargo run --release -- --url <URL> --depth <N>
 
 Again, this is a very barebones implementation. Aragog assumes you only care about http(s) as the protocol. It also doesn't really do anything with the webpages, just downloads the http files. However in my opinion with the way the code is written, it should be relatively easy to plug in a parser function that extracts the relevant data you're looking for. 
 
-The original design for this assumed I would be doing the url parsing, however upon research, I figured out that using the [`webpage`](https://myoctocat.com/assets/images/base-octocat.svg) crate made much more sense for me, as it does the ugly parts of the code for me. Initially, I tried several other crates, including `reqwest` and `hyper`, but `webpage` seemed most ergonomic for me. Could also theoretically use `serde`  and `surf`, but `webpage` worked well enough for me so I didn't delve further. 
+The original design for this assumed I would be doing the url parsing, however upon research, I figured out that using the [`webpage`](https://myoctocat.com/assets/images/base-octocat.svg) crate made much more sense for me, as it takes care of the boilerplate part. Initially, I tried several other crates, including `reqwest` and `hyper`, but `webpage` seemed most ergonomic for me. Could also theoretically use `serde`  and `surf`, but `webpage` worked well enough for me so I didn't delve further. 
 
 Initially the first version of the refined algorithm looked like this:
 
