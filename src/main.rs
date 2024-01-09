@@ -32,6 +32,7 @@ fn main() {
 }
 
 fn work_website(url: &String, depth: u32, depth_remaining: u32, all_links: &mut Vec<String>) {
+    //dbg!(url);
     all_links.push(url.to_string());
     println!("▕{}➡  {}", "▕".repeat(depth as usize), url);
     let info = Webpage::from_url(url, WebpageOptions::default());
@@ -41,13 +42,14 @@ fn work_website(url: &String, depth: u32, depth_remaining: u32, all_links: &mut 
         Ok(info) => {
             //recurse through the links
             if depth_remaining > 0 {
-                let current_domain = Url::parse(url).unwrap().domain().unwrap().to_string();
+                let parsed_url = Url::parse(url).unwrap();
+                let current_path = parsed_url.path();
                 for link in info.html.links {
                     //check if the link is an URL and has a different domain
                     if link.url.starts_with("http") {
-                        let link_domain =
-                            Url::parse(&link.url).unwrap().domain().unwrap().to_string();
-                        if link_domain != current_domain && !all_links.contains(&link.url) {
+                        let parsed_link_url = Url::parse(&link.url).unwrap();
+                        let link_path = parsed_link_url.path();
+                        if link_path != current_path && !all_links.contains(&link.url) {
                             work_website(&link.url, depth + 1, depth_remaining - 1, all_links);
                         }
                     }
